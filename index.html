@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://cissql.lorainccc.edu/ciss268/geolocation.html -->
+<html>
+<script>	
+function GetLocation(){
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+	}
+	else{
+		showError("Your browser does not support Geolocation!");
+	}
+}
+function locationSuccess(position){
+	d=distance(position.coords.latitude, position.coords.longitude, 41.41346208, -82.07227636);
+	
+}
+function locationError(error){
+		switch(error.code) {
+			case error.TIMEOUT:
+				showError("A timeout occured! Please try again!");
+				break;
+			case error.POSITION_UNAVAILABLE:
+				showError('We can\'t detect your location. Sorry!');
+				break;
+			case error.PERMISSION_DENIED:
+				showError('Please allow geolocation access for this to work.');
+				break;
+			case error.UNKNOWN_ERROR:
+				showError('An unknown error occured!');
+				break;
+		}
+
+	}	
+	
+	function showError(arg){
+		alert (arg);
+	}
+	function distance(alat1, alon1, alat2, alon2){
+var R = 6371; // km
+var dLat = (alat2-alat1) * 3.14159/180;
+var dLon = (alon2-alon1) * 3.14159/180;
+var lat1 = alat1 * 3.14159/180;
+var lat2 = alat2 * 3.14159/180
+
+var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+var d = R * c * 3280.84;
+document.getElementById("location").innerHTML= "You are " +d + " feet from the center of LCCC Campus";
+return d;
+
+   }
+	</script>
+	
+	</head><body onload="GetLocation();">
+
+	<div id="location"></div>
+	
+	
+	</body></html>
